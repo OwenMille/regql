@@ -8,6 +8,7 @@ export const getCard = /* GraphQL */ `
       title
       subtitle
       content
+      link
       rank
       createdAt
       updatedAt
@@ -26,6 +27,7 @@ export const listCards = /* GraphQL */ `
         title
         subtitle
         content
+        link
         rank
         createdAt
         updatedAt

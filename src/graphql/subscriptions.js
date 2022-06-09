@@ -8,6 +8,7 @@ export const onCreateCard = /* GraphQL */ `
       title
       subtitle
       content
+      link
       rank
       createdAt
       updatedAt
@@ -21,6 +22,7 @@ export const onUpdateCard = /* GraphQL */ `
       title
       subtitle
       content
+      link
       rank
       createdAt
       updatedAt
@@ -34,6 +36,7 @@ export const onDeleteCard = /* GraphQL */ `
       title
       subtitle
       content
+      link
       rank
       createdAt
       updatedAt

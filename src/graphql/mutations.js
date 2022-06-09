@@ -11,6 +11,7 @@ export const createCard = /* GraphQL */ `
       title
       subtitle
       content
+      link
       rank
       createdAt
       updatedAt
@@ -27,6 +28,7 @@ export const updateCard = /* GraphQL */ `
       title
       subtitle
       content
+      link
       rank
       createdAt
       updatedAt
@@ -43,6 +45,7 @@ export const deleteCard = /* GraphQL */ `
       title
       subtitle
       content
+      link
       rank
       createdAt
       updatedAt

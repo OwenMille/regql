@@ -7,5 +7,6 @@ type Card @model {
   title: String!
   subtitle: String
   content: String
+  link: String
   rank: Int
 }
