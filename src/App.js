@@ -7,17 +7,21 @@ import * as queries from './graphql/queries';
 
 import { Button, Heading, Flex, Divider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-
+import { View } from '@aws-amplify/ui-react';
 
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
 
 
 
-function App() {
+export const DefaultViewExample = () => {
+  return <View as="section">I am a section</View>;
+};
+export default function App() {
    return (
     <div style={styles.container}>
         <Heading level={2} style={styles.head}>Re:ql</Heading>
+        <DefaultViewExample/>
         <Flex direction="column" padding="30px">
           <Divider />
             <Button onClick={() => {LogAllCards()}}>
@@ -26,7 +30,7 @@ function App() {
             <Button onClick={() => {postCard()}}>
               add_card
             </Button>
-        </Flex>
+        </Flex>g
        
     </div>
   );
@@ -54,4 +58,3 @@ async function postCard() {
 const styles = {
   container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
 }  
-export default App;
