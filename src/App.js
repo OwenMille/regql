@@ -44,9 +44,6 @@ const App = () => {
     console.log("cardDetails -> uploadCard =")
     console.log(uploadCard)
     }
-  
-
-
   return (
     <div style={styles.container}>
         <Heading level={2} style={styles.head}>Re:ql</Heading>
