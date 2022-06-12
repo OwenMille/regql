@@ -1,12 +1,15 @@
 import { API } from "aws-amplify"
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
-//1.
 import React from 'react';
 
-//3.
 import {AmplifySignOut, withAuthenticator} from '@aws-amplify/ui-react'
+import { View } from '@aws-amplify/ui-react';
 
+
+export const DefaultViewExample = () => {
+    return <View as="button">I am a 'View as = button' </View>;
+  };
 
 function Board() {
  return(
@@ -17,16 +20,3 @@ function Board() {
  )
 }
 export default withAuthenticator(Board)
-
-
-
-// export async function t() {
-
-// const cardDetails = {
-//     title: 'Todo 1',
-//     subtitle: 'Learn AWS AppSync'
-//   };
-  
-// const newTodo = await API.graphql({ query: mutations.createCard, variables: {input: cardDetails}});
-
-// }

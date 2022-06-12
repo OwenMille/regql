@@ -4,15 +4,13 @@ import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
 import { Button, Heading, Flex, Divider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { View } from '@aws-amplify/ui-react';
-import Board from './Board'
+
+import Board from './Components'
 const initialState = { name: '', description: '' }
 
-export const DefaultViewExample = () => {
-  return <View as="button">I am a 'View as = button' </View>;
-};
 
-const App = () => {
+
+export default function App () {
   const [cards, setCards] = useState([])
 
 
@@ -36,6 +34,9 @@ const App = () => {
     console.log("cardDetails -> uploadCard =")
     console.log(uploadCard)
   }
+  async function deleteCard() {
+      console.log('deleteCard')
+  }
   return (
     <div style={styles.container}>
       <Board />
@@ -50,13 +51,12 @@ const App = () => {
               add_card
             </Button>
             in flex
-            <DefaultViewExample />
 
         </Flex>
-        not in flex
-        <DefaultViewExample />
-        not in flex, under default view
-       
+        <Flex direction="column" padding="30px">
+          <Divider />
+          <Button onClick={()=>{deleteCard()}}>del card: \[ id \] </Button>
+        </Flex>
     </div>
   );
 }
@@ -65,4 +65,3 @@ const styles = {
   container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
 }  
 
-export default App
