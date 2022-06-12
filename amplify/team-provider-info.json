@@ -10,6 +10,11 @@
       "StackName": "amplify-ql2666-dev-143038",
       "StackId": "arn:aws:cloudformation:us-east-2:112718571329:stack/amplify-ql2666-dev-143038/18d59980-e759-11ec-a5b3-02b31d9180a0",
       "AmplifyAppId": "d1y9epafimvc2p"
+    },
+    "categories": {
+      "auth": {
+        "ql2666": {}
+      }
     }
   }
 }
