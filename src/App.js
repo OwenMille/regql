@@ -38,6 +38,7 @@ const App = () => {
   }
   return (
     <div style={styles.container}>
+      <Board />
         <Heading level={2} style={styles.head}>Re:ql</Heading>
         
         <Flex direction="column" padding="30px">
