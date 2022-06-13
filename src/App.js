@@ -3,18 +3,13 @@ import { Amplify, API, Auth } from "aws-amplify";
 import awsExports from './aws-exports';
 import awsconfig from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
-
 import { 
   Authenticator, View, Button, 
-  Heading, Flex, Divider, Image, useTheme 
+  Heading, Flex, Divider, Image, useTheme, Card 
 } from '@aws-amplify/ui-react';
-
 
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
-
-
-// import Board from './Components'
 
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
@@ -22,7 +17,6 @@ Amplify.configure(awsExports);
 
 
 
-const initialState = { name: '', description: '' }
 
 const components = {
   Header() {
@@ -46,29 +40,23 @@ const components = {
   }
 }
 
+const feedStatus = { 
+  default: false
+}
 
 export default function App () {
+  
   const [cards, setCards] = useState([])
-
-
-  async function fetchCards() {
-    try {
-      const allCards = await API.graphql({ query: queries.listCards });
-      const cards = allCards.data.listCards.items
-      console.log(cards)
-      setCards(cards)
-
-    } catch (err) { console.log('error fetching cards') }
-  }
+  const [feed, setFeed] = useState()
 
   async function postCard() {
     const cardDetails = {
-        id: '123',
+        id: '12',
         title: 'Todo 1',
         subtitle: 'Learn AWS AppSync'
       };
+    console.log(cardDetails)
     const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: cardDetails}});
-    console.log("uploadCard")
     console.log(uploadCard)
   }
   async function deleteCard() {
@@ -79,20 +67,45 @@ export default function App () {
     console.log("deleteCard")
     console.log(delCard)
   }
+  async function cardList() {
+    try {
+      const allCards = await API.graphql({ query: queries.listCards });
+      const cards = allCards.data.listCards.items
+      console.log(cards)
+      setCards(cards)
+       
+    } catch (err) { console.log('error fetching cards') }
+  }
   return (
     <Authenticator components={components}>
       <div style={styles.container}>
           <Heading level={2} style={styles.head}>Re:ql</Heading>
           <Flex direction="column" padding="30px">
             <Divider />
-              <Button onClick={() => {fetchCards()}}> fetch cards </Button>          
+              <Button onClick={() => {cardList()}}> fetch cards </Button>          
               <Button onClick={() => {postCard()}}> add card </Button>
               <Button onClick={()=>{deleteCard()}}> delete card </Button>
             <Divider/>
           </Flex>
           <Flex direction="column" padding="30px">
-            
           </Flex>
+          {
+            cards.map((card) => {
+              console.log(card)
+              return (
+                <div className="cardContainer"key={card.id}>
+
+
+                    <CardItem
+                     title={card.title}
+                     subtitle={card.subtitle}
+                    >
+                    </CardItem>
+
+                </div>             
+                )
+            })
+          }
       </div>
     </Authenticator>
   );
