@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Amplify, API, Auth } from "aws-amplify";
 import awsExports from './aws-exports';
 import awsconfig from './aws-exports';
@@ -8,6 +8,7 @@ import {
   Heading, Flex, Divider, Image, useTheme, Card 
 } from '@aws-amplify/ui-react';
 
+import { CardItem } from "./CardItem";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
 
@@ -21,23 +22,13 @@ Amplify.configure(awsExports);
 const components = {
   Header() {
     const { tokens } = useTheme();
-
     return (
-      <Flex direction="row" padding="10px"alignItems="center">
-      <View textAlign="center" padding={tokens.space.large}>
-        <Image
-          maxHeight="180px"
-          alt="avantgarderu"
-          src="https://static01.nyt.com/images/2018/04/07/arts/07avantgard2/merlin_136435113_9f4e2429-bfda-4941-b123-93b3d49dfd6f-articleLarge.jpg?quality=75&auto=webp"
-        />
-      </View>
-      <Flex direction="column" alignContent="center" >
-        <Heading fontSize="90px" color="#941100"fontFamily="serif">ql</Heading>
-        <Heading fontSize="24px" fontFamily="serif">top lists</Heading>
-      </Flex>
-      </Flex>
+      <Flex direction="row" alignContent="center"alignItems="center">
+        <Heading fontSize="90px"padding="100px" fontFamily="serif">ql</Heading>
+        <Heading fontSize="24px" fontStyle={"italic"} fontFamily="sans-serif">toplists</Heading>
+      </Flex>  
     );
-  }
+  },
 }
 
 const feedStatus = { 
@@ -59,13 +50,15 @@ export default function App () {
     const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: cardDetails}});
     console.log(uploadCard)
   }
+
   async function deleteCard() {
     const cardDetails = {
-      id: '1b8c2efe-eca7-4cb8-9f7f-82707da8c5ff'
+      id: '12'
     }
     const delCard = await API.graphql({ query: mutations.deleteCard, variables: {input: cardDetails}});
     console.log("deleteCard")
     console.log(delCard)
+    setFeed({loading:true})
   }
   async function cardList() {
     try {
@@ -78,8 +71,8 @@ export default function App () {
   }
   return (
     <Authenticator components={components}>
-      <div style={styles.container}>
-          <Heading level={2} style={styles.head}>Re:ql</Heading>
+      <div>
+          <Heading level={2}>Re:ql</Heading>
           <Flex direction="column" padding="30px">
             <Divider />
               <Button onClick={() => {cardList()}}> fetch cards </Button>          
@@ -94,14 +87,11 @@ export default function App () {
               console.log(card)
               return (
                 <div className="cardContainer"key={card.id}>
-
-
                     <CardItem
                      title={card.title}
                      subtitle={card.subtitle}
                     >
                     </CardItem>
-
                 </div>             
                 )
             })
@@ -110,8 +100,3 @@ export default function App () {
     </Authenticator>
   );
 }
-
-const styles = {
-  container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
-}  
-
