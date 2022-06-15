@@ -28,18 +28,14 @@ const components = {
         <Heading fontSize="24px" fontStyle={"italic"} fontFamily="sans-serif">toplists</Heading>
       </Flex>  
     );
-  },
-}
 
-const feedStatus = { 
-  default: false
+  },
 }
 
 export default function App () {
   
   const [cards, setCards] = useState([])
-  const [feed, setFeed] = useState()
-
+  const [feed, setFeed] = useState({ loading:true })
   async function postCard() {
     const cardDetails = {
         id: '12',
