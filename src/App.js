@@ -9,14 +9,12 @@ import {
 } from '@aws-amplify/ui-react';
 
 import { CardItem } from "./CardItem";
+import CreateCard from "./CreateCard";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
 
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
-
-
-
 
 
 const components = {
@@ -33,9 +31,12 @@ const components = {
 }
 
 export default function App () {
-  
+
   const [cards, setCards] = useState([])
   const [feed, setFeed] = useState({ loading:true })
+  const [newCard, setNewCard] = useState(false)
+  const ToggleNewCard = () => setNewCard(!newCard)
+
   async function postCard() {
     const cardDetails = {
         id: '12',
@@ -46,7 +47,6 @@ export default function App () {
     const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: cardDetails}});
     console.log(uploadCard)
   }
-
   async function deleteCard() {
     const cardDetails = {
       id: '12'
@@ -71,11 +71,13 @@ export default function App () {
           <Heading level={2}>Re:ql</Heading>
           <Flex direction="column" padding="30px">
             <Divider />
+              <Button onClick={() => {ToggleNewCard()}}>Create</Button>
               <Button onClick={() => {cardList()}}> fetch cards </Button>          
               <Button onClick={() => {postCard()}}> add card </Button>
               <Button onClick={()=>{deleteCard()}}> delete card </Button>
             <Divider/>
           </Flex>
+          <CreateCard show={newCard} />
           <Flex direction="column" padding="30px">
           </Flex>
           {
