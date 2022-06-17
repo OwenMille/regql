@@ -6,7 +6,11 @@
     "gqlSchemaPath": "/Users/owenmille/Documents/Professional/amazon/ql/amplify/backend/api/ql2666/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "expirationTime": 7,
+      "apiKeyExpirationDate": "2022-06-24T02:28:47.854Z",
+      "keyDescription": "2"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
   }
 }

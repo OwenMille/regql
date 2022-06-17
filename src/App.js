@@ -5,9 +5,10 @@ import awsconfig from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import { 
   Authenticator, View, Button, 
-  Heading, Flex, Divider, Image, useTheme, Card 
+  Heading, Flex, Divider, Image, useTheme, Tabs, TabItem
 } from '@aws-amplify/ui-react';
 
+import { Dropdown } from "./comp";
 import { CardItem } from "./CardItem";
 import CreateCard from "./CreateCard";
 import * as mutations from './graphql/mutations';
@@ -36,7 +37,9 @@ export default function App () {
   const [feed, setFeed] = useState({ loading:true })
   const [newCard, setNewCard] = useState(false)
   const ToggleNewCard = () => setNewCard(!newCard)
-
+  useEffect(() => {
+    cardList()
+  }, []);
   async function postCard() {
     const cardDetails = {
         id: '12',
@@ -71,12 +74,20 @@ export default function App () {
           <Heading level={2}>Re:ql</Heading>
           <Flex direction="column" padding="30px">
             <Divider />
+            <Tabs>
+              <TabItem title="Tab 1">
+                <Dropdown />
+              </TabItem>
+              <TabItem title="Tab 2">
+                Tab content #2
+              </TabItem>
+            </Tabs>
               <Button onClick={() => {ToggleNewCard()}}>Create</Button>
               <Button onClick={() => {cardList()}}> fetch cards </Button>          
               <Button onClick={() => {postCard()}}> add card </Button>
               <Button onClick={()=>{deleteCard()}}> delete card </Button>
             <Divider/>
-          </Flex>
+            </Flex>
           <CreateCard show={newCard} />
           <Flex direction="column" padding="30px">
           </Flex>

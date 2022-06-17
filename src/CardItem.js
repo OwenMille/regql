@@ -1,15 +1,19 @@
 import { React } from "react"
-import { Heading, Card } from '@aws-amplify/ui-react';
+import { View, Heading, Text, Card, Divider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
  const CardItem = (props) => {
     console.log("Item loaded w/ ID: " + props.id)
 
     return (
+        <View padding="5% 15%">
         <Card>
-        <Heading>{props.title}</Heading>
-        <h2>{props.subtitle}</h2>
+        <Text>{props.id}</Text>
+        <Heading level={1}>{props.title}</Heading>
+        <Heading level={6}>{props.subtitle}</Heading>
         </Card>
+        <Divider />
+        </View>
     )
  }
 export { CardItem }
