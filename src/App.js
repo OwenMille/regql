@@ -4,8 +4,8 @@ import awsExports from './aws-exports';
 import awsconfig from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import { 
-  Authenticator, View, Button, 
-  Heading, Flex, Divider, Image, useTheme, Tabs, TabItem
+  Authenticator, View, Button, Menu, MenuItem, MenuButton,
+  Heading, Flex, Divider, Image, useTheme, Tabs, TabItem, Text
 } from '@aws-amplify/ui-react';
 
 import { Dropdown } from "./Components";
@@ -13,7 +13,6 @@ import { CardItem } from "./CardItem";
 //import CreateCard from "./CreateCard";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
-import { ButList } from "./Components";
 import New from './New'
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
@@ -37,8 +36,11 @@ export default function App () {
   const [feed, setFeed] = useState(false)
   const [newCard, setNewCard] = useState(false)
   //const ToggleNewCard = () => setNewCard(!newCard)
-  useEffect(() => { cardList() }, []);
-
+  
+  
+  //useEffect(() => { cardList() }, []);
+  //  UI DEBUGGING : 
+  useEffect(() => { console.log("cardlist()")})
 
   async function postCard() {
     const cardDetails = {
@@ -60,22 +62,23 @@ export default function App () {
   }
 
   return (
-    <Authenticator components={components}>
+    <Authenticator>
+    {({ signOut, user }) => (
       <div>
-          <Heading level={2}>Re:ql</Heading>
-
-          
-
+        <Flex direction="column" paddingLeft="30px" alignItems="left">
+          <Text fontSize="32px" fontStyle="italic" fontWeight="200"> Re:ql </Text>
+        </Flex>
+          <Flex direction="column" alignItems="center">
+        <Heading level={3} fontWeight="400">{user.username}</Heading></Flex>
           <Flex direction="column" padding="30px">
             <Divider />
             <Tabs>
-              <TabItem title="Tab 1">
-              <New 
-
-/>
+              <TabItem title="New">
+                <New 
+                />
               </TabItem>
-              <TabItem title="Tab 2">
-                <Dropdown />
+              <TabItem title="Profile">
+                <Flex padding="30px"> <Button fontStyle="italic" onClick={signOut}>Sign Out</Button> </Flex>
               </TabItem>
             </Tabs>
             <Divider size="large"/>              
@@ -83,26 +86,26 @@ export default function App () {
               <Button onClick={()=>{deleteCard()}}> delete card </Button>
             <Divider/>
             </Flex>
-          
-          <Flex direction="column" padding="30px">
-          </Flex>
-          {
-            cards.map((card) => {
-              console.log(card)
-              return (
-                <div className="cardContainer"key={card.id}>
-                    <CardItem
-                     title={card.title}
-                     subtitle={card.subtitle}
-                    >
-                    </CardItem>
-                </div>             
-                )
-            })
-          }
+            <View>
+            {
+              cards.map((card) => {
+                console.log(card)
+                return (
+                  <div className="cardContainer"key={card.id}>
+                      <CardItem
+                      title={card.title}
+                      subtitle={card.subtitle}
+                      >
+                      </CardItem>
+                  </div>             
+                  )
+              })
+            }
+            </View>
       </div>
+    )}
     </Authenticator>
-  );
+   );
 
   async function cardList() {
     try {

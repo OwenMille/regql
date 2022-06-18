@@ -25,41 +25,31 @@ export default function New(props) {
         console.log(info)
     }
     return (
-      <View paddingLeft="10%" paddingRight="10%">
+     
         <Flex direction="column">
-          <TextField
-            placeholder="Title"
-            size="large"
-          />
-          <Flex direction="row">
-            <TextField
-              descriptiveText="Optional"
-              placeholder="Name of author, artist, etc."
-              name="subtitle"
-              direction="column"
-              size="small"
-              inputMode="text"
-            />
-            <TextField
-              descriptiveText="Optional"
-              placeholder="Name of author, artist, etc."
-              name="subtitle"
-              direction="column"
-              size="small"
-              inputMode="text"
-            />
-          </Flex>
+          <View paddingLeft="10%" paddingRight="10%">
+              <TextField
+                placeholder="Title of Work"
+                fontWeight="300"
+              />
+              <TextField
+                fontWeight="300"
+                placeholder="Name of Creator"
+                name="subtitle"
+                direction="column"
+                inputMode="text"
+              />
+           </View>
          <TextAreaField
-  descriptiveText="Contents"
-  labelHidden={false} 
-  name="last_name"
-  placeholder="Baggins"
-  rows="2"
-  size="small"
-  wrap="nowrap"
- />
+            labelHidden={false} 
+            name="last_name"
+            placeholder="Card Content"
+            rows="3"
+            size="small"
+            
+          />
         </Flex>
-      </View>      
+     
     )
 }
 
