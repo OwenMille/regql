@@ -6,9 +6,34 @@ import * as queries from './graphql/queries';
 import React from 'react';
 
 import {AmplifySignOut, withAuthenticator} from '@aws-amplify/ui-react'
-import { View } from '@aws-amplify/ui-react';
+import { Button, View } from '@aws-amplify/ui-react';
 
 import { SelectField, Flex } from '@aws-amplify/ui-react';
+
+async function cardList() {
+  try {
+    const cards = await API.graphql({ query: queries.listCards });
+    
+    console.log(cards)
+    
+     
+  } catch (err) { console.log('error comp') }
+}
+export const ButList = () => (
+  <Flex padding="30px">
+    <code>butlist</code>
+    <Button onClick={() => {cardList()}}></Button>
+  </Flex>
+)
+
+
+
+
+
+// export const CreateCard = () => (
+  
+// )
+
 
 export const Dropdown = () => (
   <Flex direction="column">

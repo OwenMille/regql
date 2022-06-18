@@ -8,15 +8,15 @@ import {
   Heading, Flex, Divider, Image, useTheme, Tabs, TabItem
 } from '@aws-amplify/ui-react';
 
-import { Dropdown } from "./comp";
+import { Dropdown } from "./Components";
 import { CardItem } from "./CardItem";
-import CreateCard from "./CreateCard";
+//import CreateCard from "./CreateCard";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
-
+import { ButList } from "./Components";
+import New from './New'
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
-
 
 const components = {
   Header() {
@@ -34,12 +34,12 @@ const components = {
 export default function App () {
 
   const [cards, setCards] = useState([])
-  const [feed, setFeed] = useState({ loading:true })
+  const [feed, setFeed] = useState(false)
   const [newCard, setNewCard] = useState(false)
-  const ToggleNewCard = () => setNewCard(!newCard)
-  useEffect(() => {
-    cardList()
-  }, []);
+  //const ToggleNewCard = () => setNewCard(!newCard)
+  useEffect(() => { cardList() }, []);
+
+
   async function postCard() {
     const cardDetails = {
         id: '12',
@@ -57,38 +57,33 @@ export default function App () {
     const delCard = await API.graphql({ query: mutations.deleteCard, variables: {input: cardDetails}});
     console.log("deleteCard")
     console.log(delCard)
-    setFeed({loading:true})
   }
-  async function cardList() {
-    try {
-      const allCards = await API.graphql({ query: queries.listCards });
-      const cards = allCards.data.listCards.items
-      console.log(cards)
-      setCards(cards)
-       
-    } catch (err) { console.log('error fetching cards') }
-  }
+
   return (
     <Authenticator components={components}>
       <div>
           <Heading level={2}>Re:ql</Heading>
+
+          
+
           <Flex direction="column" padding="30px">
             <Divider />
             <Tabs>
               <TabItem title="Tab 1">
-                <Dropdown />
+              <New 
+
+/>
               </TabItem>
               <TabItem title="Tab 2">
-                Tab content #2
+                <Dropdown />
               </TabItem>
             </Tabs>
-              <Button onClick={() => {ToggleNewCard()}}>Create</Button>
-              <Button onClick={() => {cardList()}}> fetch cards </Button>          
+            <Divider size="large"/>              
               <Button onClick={() => {postCard()}}> add card </Button>
               <Button onClick={()=>{deleteCard()}}> delete card </Button>
             <Divider/>
             </Flex>
-          <CreateCard show={newCard} />
+          
           <Flex direction="column" padding="30px">
           </Flex>
           {
@@ -108,4 +103,14 @@ export default function App () {
       </div>
     </Authenticator>
   );
+
+  async function cardList() {
+    try {
+      const allCards = await API.graphql({ query: queries.listCards });
+      const cards = allCards.data.listCards.items
+      console.log(cards)
+      setCards(cards)
+       
+    } catch (err) { console.log('error fetching cards') }
+  }
 }
