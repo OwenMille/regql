@@ -14,6 +14,7 @@ import { CardItem } from "./CardItem";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
 import New from './New'
+require('./App.scss')
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
 
@@ -64,20 +65,27 @@ export default function App () {
   return (
     <Authenticator>
     {({ signOut, user }) => (
-      <div>
-        <Flex direction="column" paddingLeft="30px" alignItems="left">
+      <View maxWidth="600px" margin="auto" >
+        <Flex>
           <Text fontSize="32px" fontStyle="italic" fontWeight="200"> Re:ql </Text>
         </Flex>
           <Flex direction="column" alignItems="center">
         <Heading level={3} fontWeight="400">{user.username}</Heading></Flex>
           <Flex direction="column" padding="30px">
             <Divider />
+           
             <Tabs>
               <TabItem title="New">
-                <New 
-                />
-              <TabItem title="Collection">
-                  <View title="lists">
+                <New />
+              </TabItem>
+              <TabItem title="Profile">
+                <Flex padding="30px"> <Button fontStyle="italic" onClick={signOut}>Sign Out</Button> </Flex>
+              </TabItem>
+            </Tabs>
+              <Button onClick={() => {postCard()}}> add card </Button>
+              <Button onClick={()=>{deleteCard()}}> delete card </Button>
+            <Divider/>
+            <View title="lists">
                     {
                       cards.map((card) => {
                         console.log(card)
@@ -92,20 +100,9 @@ export default function App () {
                           )
                       })
                     }
-                  </View>
-              </TabItem>
-              </TabItem>
-              <TabItem title="Profile">
-                <Flex padding="30px"> <Button fontStyle="italic" onClick={signOut}>Sign Out</Button> </Flex>
-              </TabItem>
-            </Tabs>
-            <Divider size="large"/>              
-              <Button onClick={() => {postCard()}}> add card </Button>
-              <Button onClick={()=>{deleteCard()}}> delete card </Button>
-            <Divider/>
+              </View>
             </Flex>
-            
-      </div>
+        </View>    
     )}
     </Authenticator>
    );
