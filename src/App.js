@@ -76,6 +76,24 @@ export default function App () {
               <TabItem title="New">
                 <New 
                 />
+              <TabItem title="Collection">
+                  <View title="lists">
+                    {
+                      cards.map((card) => {
+                        console.log(card)
+                        return (
+                          <div className="cardContainer"key={card.id}>
+                              <CardItem
+                              title={card.title}
+                              subtitle={card.subtitle}
+                              >
+                              </CardItem>
+                          </div>             
+                          )
+                      })
+                    }
+                  </View>
+              </TabItem>
               </TabItem>
               <TabItem title="Profile">
                 <Flex padding="30px"> <Button fontStyle="italic" onClick={signOut}>Sign Out</Button> </Flex>
@@ -86,22 +104,7 @@ export default function App () {
               <Button onClick={()=>{deleteCard()}}> delete card </Button>
             <Divider/>
             </Flex>
-            <View>
-            {
-              cards.map((card) => {
-                console.log(card)
-                return (
-                  <div className="cardContainer"key={card.id}>
-                      <CardItem
-                      title={card.title}
-                      subtitle={card.subtitle}
-                      >
-                      </CardItem>
-                  </div>             
-                  )
-              })
-            }
-            </View>
+            
       </div>
     )}
     </Authenticator>
