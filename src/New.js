@@ -1,7 +1,6 @@
 import { API } from "aws-amplify"
-import * as mutations from './graphql/mutations';
-import * as queries from './graphql/queries';
-import React, { useState } from 'react';
+import { createCard } from './graphql/mutations';
+import { useState } from 'react';
 import {
     Flex,
     View,
@@ -12,44 +11,63 @@ import {
 } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css';
 
+
+const formState = { 
+  id: "",
+  title: "",
+  subtitle: "",
+  content: "",
+  link: "",
+  rank: ""
+}
+
+function updateFormState(key, value) {
+  formState[key] = value
+}
+
+
 export default function New(props) {
-    const [info, setInfo] = useState({
-        id: "",
-        title: "",
-        subtitle: "",
-        content: "",
-        link: "",
-        rank: ""
-    })
-    async function postCard() {
-        console.log(info)
+  
+    
+    function postCard() {
+     
+        console.log(formState)
     }
     return (
-     
-        <Flex direction="column">
-          <View paddingLeft="10%" paddingRight="10%">
-              <TextField
-                placeholder="Title of Work"
-                fontWeight="300"
-              />
-              <TextField
-                fontWeight="300"
-                placeholder="Name of Creator"
-                name="subtitle"
-                direction="column"
-                inputMode="text"
-              />
-           </View>
-         <TextAreaField
+      <Flex direction="column" maxWidth="500px">
+        <View padding="30px">
+          <TextField
+            placeholder="Title of Post"
+            fontWeight="300"
+            onChange={e => updateFormState('title', e.target.value)}
+          />
+          <TextField
+            fontWeight="300"
+            placeholder="Post Subtitle (the author, your reaction, etc.)"
+            name="subtitle"
+            direction="column"
+            inputMode="text"
+          />
+          <TextAreaField
             labelHidden={false} 
             name="last_name"
-            placeholder="Card Content"
             rows="3"
             size="small"
-            
+            onChange={e => updateFormState('content', e.target.value)}
           />
-        </Flex>
-     
+          <Flex direction="row">
+            <TextField placeholder="id" />
+            <TextField placeholder="Your Ranking" />
+            </Flex>
+          <Flex padding ="15px">
+          
+          
+          <button onClick={console.log(formState)}>Create New Contact</button>
+          <Button onClick={() => {postCard()}}> add card </Button>
+          </Flex>        </View>
+      </Flex>
+      
+    
     )
 }
 

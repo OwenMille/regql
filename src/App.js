@@ -8,9 +8,7 @@ import {
   Heading, Flex, Divider, Image, useTheme, Tabs, TabItem, Text
 } from '@aws-amplify/ui-react';
 
-import { Dropdown } from "./Components";
 import { CardItem } from "./CardItem";
-//import CreateCard from "./CreateCard";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
 import New from './New'
@@ -18,18 +16,6 @@ import New from './New'
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
 
-const components = {
-  Header() {
-    const { tokens } = useTheme();
-    return (
-      <Flex direction="row" alignContent="center"alignItems="center">
-        <Heading fontSize="90px"padding="100px" fontFamily="serif">ql</Heading>
-        <Heading fontSize="24px" fontStyle={"italic"} fontFamily="sans-serif">toplists</Heading>
-      </Flex>  
-    );
-
-  },
-}
 
 export default function App () {
 
@@ -39,9 +25,9 @@ export default function App () {
   //const ToggleNewCard = () => setNewCard(!newCard)
   
   
-  //useEffect(() => { cardList() }, []);
+  // useEffect(() => { cardList() }, []);
   //  UI DEBUGGING : 
-  useEffect(() => { console.log("cardlist()")})
+  // useEffect(() => { console.log("cardlist()")})
 
   async function postCard() {
     const cardDetails = {
@@ -80,10 +66,13 @@ export default function App () {
               </TabItem>
               <TabItem title="Profile">
                 <Flex padding="30px"> <Button fontStyle="italic" onClick={signOut}>Sign Out</Button> </Flex>
+                <Button onClick={()=>{deleteCard()}}> delete card </Button>
               </TabItem>
             </Tabs>
-              <Button onClick={() => {postCard()}}> add card </Button>
-              <Button onClick={()=>{deleteCard()}}> delete card </Button>
+              
+            
+            
+            
             <Divider/>
             <View title="lists">
                     {
