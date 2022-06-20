@@ -14,7 +14,7 @@ import { CardItem } from "./CardItem";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
 import New from './New'
-require('./App.scss')
+
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
 
