@@ -1,13 +1,16 @@
-# WARNING
-## This is a "personal aws learning" focused readme. 
+
+### NOTE: This is a "personal aws learning" focused readme. 
 Since my journey of rediscovering web developement and taking functional routes of learning over classroom-based ones, I have bounced around many different projects. Anything here is not likely to be informational out of whatever context I was in at the time of writing. But it has been a fun journey so I'll update with my takeaways here.
 
 If anyone reading this decides to jump into react development with a full-stack attitude, I also hope to show my thought process and you can take what you can from it.
 
-"""Links"""
+Links
 [Amplify Page](https://us-east-2.console.aws.amazon.com/amplify/home?code=a6684ca5da7d55e32250&region=us-east-2#/d1y9epafimvc2p/YmFja2VuZA/dev?category=api)
+
 [Amplify Studio](https://us-east-2.admin.amplifyapp.com/admin/login?appId=d1y9epafimvc2p&code=27d37dcc-1979-4259-b2a8-c2d953a0162e&sessionId=88436c7d-de29-442e-af2d-26b4a48c28e6&backendEnvironmentName=dev)
+
 [AppSync -dev](https://us-east-2.console.aws.amazon.com/appsync/home?region=us-east-2#/ntpsmpm6ifgnxco6rm7ov2xupq/v1/home)
+
 [User Pools](https://us-east-2.console.aws.amazon.com/cognito/users/?region=us-east-2#/pool/us-east-2_T2IRw6JFN/details?_k=1x4ixk)
 
 
