@@ -4,9 +4,9 @@ import awsExports from './aws-exports';
 import awsconfig from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import { 
-  Authenticator, View, Button, Menu, MenuItem, MenuButton,
-  Heading, Flex, Divider, Image, useTheme, Tabs, TabItem, Text
+  Authenticator, View, Button, Menu, MenuItem, MenuButton, Heading, Flex, Divider, Image, useTheme, Tabs, TabItem, Text
 } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
 import { CardItem } from "./CardItem";
 import * as mutations from './graphql/mutations';
@@ -17,17 +17,17 @@ Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
 
 
-export default function App () {
-
+export default function App() {
   const [cards, setCards] = useState([])
   const [feed, setFeed] = useState(false)
-  const [newCard, setNewCard] = useState(false)
+  const [sa, setUserState] = useState([])
   //const ToggleNewCard = () => setNewCard(!newCard)
   
   
-  // useEffect(() => { cardList() }, []);
-  //  UI DEBUGGING : 
-  // useEffect(() => { console.log("cardlist()")})
+  useEffect(() => { 
+    cardList()
+
+   }, []);
 
   async function postCard() {
     const cardDetails = {
@@ -55,41 +55,46 @@ export default function App () {
         <Flex>
           <Text fontSize="32px" fontStyle="italic" fontWeight="200"> Re:ql </Text>
         </Flex>
-          <Flex direction="column" alignItems="center">
+        <Flex direction="column" alignItems="center">
+
         <Heading level={3} fontWeight="400">{user.username}</Heading></Flex>
           <Flex direction="column" padding="30px">
-            <Divider />
-           
             <Tabs>
+              <TabItem title="Home">
+                </TabItem>
               <TabItem title="New">
-                <New />
+                <New username={user.username} />
               </TabItem>
               <TabItem title="Profile">
-                <Flex padding="30px"> <Button fontStyle="italic" onClick={signOut}>Sign Out</Button> </Flex>
-                <Button onClick={()=>{deleteCard()}}> delete card </Button>
+                <Flex padding="30px">
+                    <Button fontStyle="italic" onClick={signOut}>
+                      Sign Out
+                    </Button> 
+                </Flex>
+                <Button onClick={()=>{console.log(user.username)}}>
+                  delete card
+                </Button>
               </TabItem>
             </Tabs>
-              
-            
-            
-            
-            <Divider/>
             <View title="lists">
                     {
                       cards.map((card) => {
-                        console.log(card)
+                        
                         return (
                           <div className="cardContainer"key={card.id}>
                               <CardItem
                               title={card.title}
-                              subtitle={card.subtitle}
-                              >
+                              subtitle={card.subtitle}>
                               </CardItem>
-                          </div>             
+                              <Button size="small" margin="10px" onClick={console.log(card.id)}>Delete Item</Button>
+                          </div>     
+                          
+                           
                           )
                       })
+                      
                     }
-              </View>
+                      </View>    
             </Flex>
         </View>    
     )}
@@ -100,7 +105,7 @@ export default function App () {
     try {
       const allCards = await API.graphql({ query: queries.listCards });
       const cards = allCards.data.listCards.items
-      console.log(cards)
+      
       setCards(cards)
        
     } catch (err) { console.log('error fetching cards') }

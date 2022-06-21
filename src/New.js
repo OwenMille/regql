@@ -1,15 +1,16 @@
+import { React } from "react"
 import { API } from "aws-amplify"
-import { createCard } from './graphql/mutations';
-import { useState } from 'react';
+import * as mutations from './graphql/mutations';
 import {
-    Flex,
-    View,
-    Button,
-    TextField,
-    TextAreaField,
-    Text
+  Flex,
+  View,
+  Button,
+  TextField,
+  TextAreaField,
+  Text
 } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css';
+
 
 
 const formState = { 
@@ -26,17 +27,30 @@ function updateFormState(key, value) {
 }
 
 
-export default function New(props) {
+export default function New(username) {
+  async function confirm() {
+    let intRank=parseInt(formState.rank);
+    updateFormState('rank', intRank)
+    updateFormState('id', Date.now())
+    updateFormState('link', username.username )
+    postCard()
+  }
   
-    
-    function postCard() {
-     
-        console.log(formState)
-    }
-    return (
+  async function postCard() {
+
+   
+    // const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: formState}});
+    // console.log(uploadCard)
+    // window.location.reload(false);
+
+    console.log("API -> ", formState)
+
+  }
+  return (
       <Flex direction="column" maxWidth="500px">
-        <View padding="30px">
+        <View padding="30px"/>
           <TextField
+            variation='primary'
             placeholder="Title of Post"
             fontWeight="300"
             onChange={e => updateFormState('title', e.target.value)}
@@ -47,27 +61,36 @@ export default function New(props) {
             name="subtitle"
             direction="column"
             inputMode="text"
+            onChange={e => updateFormState('subtitle', e.target.value)}
           />
           <TextAreaField
             labelHidden={false} 
-            name="last_name"
+            name="content"
             rows="3"
+            placeholder="Content"
             size="small"
             onChange={e => updateFormState('content', e.target.value)}
           />
-          <Flex direction="row">
-            <TextField placeholder="id" />
-            <TextField placeholder="Your Ranking" />
-            </Flex>
-          <Flex padding ="15px">
-          
-          
-          <button onClick={console.log(formState)}>Create New Contact</button>
-          <Button onClick={() => {postCard()}}> add card </Button>
-          </Flex>        </View>
+          <TextField
+            size="small"
+            fontWeight="800"
+            placeholder="Give the item a score, 1-10 (optional)"
+            onChange={e => updateFormState('rank', e.target.value)}
+          />
+          <Flex margin="auto" padding ="15px">
+
+          <Button  
+              variation="primary"
+              onClick={() => {confirm()}}> Create Post
+          </Button> 
+          </Flex>       
+        
       </Flex>
       
     
     )
 }
 
+// async function p() => {
+//   const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: formState}});
+// }
