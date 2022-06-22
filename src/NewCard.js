@@ -7,7 +7,7 @@ import {
   Button,
   TextField,
   TextAreaField,
-  Text
+  Alert
 } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css';
 
@@ -27,24 +27,27 @@ function updateFormState(key, value) {
 }
 
 
-export default function New(username) {
+export default function NewCard(username) {
   async function confirm() {
+    try {
     let intRank=parseInt(formState.rank);
     updateFormState('rank', intRank)
     updateFormState('id', Date.now())
     updateFormState('link', username.username )
     postCard()
+    } catch (err) { console.log("Error gathering post information. Try again.") }
   }
   
   async function postCard() {
-
-   
-    // const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: formState}});
-    // console.log(uploadCard)
-    // window.location.reload(false);
-
-    console.log("API -> ", formState)
-
+    try {
+      const uploadCard = await API.graphql({ 
+        query: mutations.createCard, variables: {input: formState}
+      });
+      console.log("Success" + uploadCard)
+      window.location.reload(false)
+    } catch (err) {
+       console.log('Error adding post.') 
+      }
   }
   return (
       <Flex direction="column" maxWidth="500px">

@@ -4,47 +4,43 @@ import awsExports from './aws-exports';
 import awsconfig from './aws-exports';
 import '@aws-amplify/ui-react/styles.css';
 import { 
-  Authenticator, View, Button, Menu, MenuItem, MenuButton, Heading, Flex, Divider, Image, useTheme, Tabs, TabItem, Text
+  Authenticator, View, Button, Alert, Heading, Flex, Divider, Image, useTheme, Tabs, TabItem, Text
 } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 
-import { CardItem } from "./CardItem";
 import * as mutations from './graphql/mutations';
 import * as queries from './graphql/queries';
-import New from './New'
+import NewCard from './NewCard'
+import { CardItem } from "./CardItem";
 
 Amplify.configure(awsconfig);
 Amplify.configure(awsExports);
 
 
+
 export default function App() {
   const [cards, setCards] = useState([])
-  const [feed, setFeed] = useState(false)
-  const [sa, setUserState] = useState([])
-  //const ToggleNewCard = () => setNewCard(!newCard)
-  
-  
-  useEffect(() => { 
-    cardList()
+  const [toggleState, setToggleState] = useState(false)
 
-   }, []);
+  useEffect(() => { cardList() }, []);
 
-  async function postCard() {
-    const cardDetails = {
-        id: '12',
-        title: 'Todo 1',
-        subtitle: 'Learn AWS AppSync'
-      };
-    console.log(cardDetails)
-    const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: cardDetails}});
-    console.log(uploadCard)
-  }
-  async function deleteCard() {
-    const cardDetails = {
-      id: '12'
+  async function deleteItem(props, user) {
+    let cardOwner = props.link
+    let currentUser = user.username
+    console.log(toggleState)
+    if (cardOwner == currentUser) {
+      setToggleState(true)
+    } else {
+      console.log("bad")
+
     }
-    const delCard = await API.graphql({ query: mutations.deleteCard, variables: {input: cardDetails}});
-    console.log("deleteCard")
+  }
+  async function deleteCard(id) {
+    const cardDetails = {
+      id: {id}
+    }
+    console.log(cardDetails.id)
+    const delCard = await API.graphql({ query: mutations.deleteCard, variables: {input: cardDetails.id}});
     console.log(delCard)
   }
 
@@ -63,7 +59,7 @@ export default function App() {
               <TabItem title="Home">
                 </TabItem>
               <TabItem title="New">
-                <New username={user.username} />
+                <NewCard username={user.username} />
               </TabItem>
               <TabItem title="Profile">
                 <Flex padding="30px">
@@ -84,9 +80,23 @@ export default function App() {
                           <div className="cardContainer"key={card.id}>
                               <CardItem
                               title={card.title}
-                              subtitle={card.subtitle}>
-                              </CardItem>
-                              <Button size="small" margin="10px" onClick={console.log(card.id)}>Delete Item</Button>
+                              subtitle={card.subtitle}
+                              content={card.content}
+                              link={card.link}
+                              rank={card.rank}
+                              />
+                             { 
+                              card.link==user.username ? (
+                              <Button size="small" 
+                                      margin="10px" 
+                                      onClick={()=>{
+                                        deleteItem(card, user)
+                                      }}
+                             >delete</Button>):(<></>)}
+                              { toggleState ? (
+                                <Button paddingRight="3px" paddingLeft="3px">x</Button>
+                              ):(<></>)}
+                                    
                           </div>     
                           
                            
@@ -105,7 +115,6 @@ export default function App() {
     try {
       const allCards = await API.graphql({ query: queries.listCards });
       const cards = allCards.data.listCards.items
-      
       setCards(cards)
        
     } catch (err) { console.log('error fetching cards') }
