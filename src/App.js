@@ -27,9 +27,9 @@ export default function App() {
   async function deleteItem(props, user) {
     let cardOwner = props.link
     let currentUser = user.username
-    console.log(toggleState)
+    
     if (cardOwner == currentUser) {
-      setToggleState(true)
+console.log("good")
     } else {
       console.log("bad")
 
@@ -77,7 +77,20 @@ export default function App() {
                       cards.map((card) => {
                         
                         return (
+                          
                           <div className="cardContainer"key={card.id}>
+                              { card.link==user.username ?(
+                                <Button variation="link" padding="3px"
+                                onClick={()=>{setToggleState(true)}}>x</Button>
+                                ):(<></>)}  { toggleState ? (
+                                  <Button size="small" 
+                                          margin="10px" 
+                                          onClick={()=>{
+                                            deleteItem(card, user)
+                                          }}
+                                 >Are you sure you want to delete this card?</Button>):(<></>)}
+
+                          
                               <CardItem
                               title={card.title}
                               subtitle={card.subtitle}
@@ -85,18 +98,12 @@ export default function App() {
                               link={card.link}
                               rank={card.rank}
                               />
-                             { 
-                              card.link==user.username ? (
-                              <Button size="small" 
-                                      margin="10px" 
-                                      onClick={()=>{
-                                        deleteItem(card, user)
-                                      }}
-                             >delete</Button>):(<></>)}
-                              { toggleState ? (
-                                <Button paddingRight="3px" paddingLeft="3px">x</Button>
+
+                              { card.link==user.username ?(
+                                <Button variation="link" color="white" padding="3px"
+                                onClick={()=>{setToggleState(true)}}>x</Button>
                               ):(<></>)}
-                                    
+                           
                           </div>     
                           
                            
