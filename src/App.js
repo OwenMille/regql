@@ -55,42 +55,13 @@ console.log("good")
 
         <Heading level={3} fontWeight="400">{user.username}</Heading></Flex>
           <Flex direction="column" padding="30px">
-            <Tabs>
-              <TabItem title="Home">
-                </TabItem>
-              <TabItem title="New">
-                <NewCard username={user.username} />
-              </TabItem>
-              <TabItem title="Profile">
-                <Flex padding="30px">
-                    <Button fontStyle="italic" onClick={signOut}>
-                      Sign Out
-                    </Button> 
-                </Flex>
-                <Button onClick={()=>{console.log(user.username)}}>
-                  delete card
-                </Button>
-              </TabItem>
-            </Tabs>
-            <View title="lists">
-                    {
-                      cards.map((card) => {
-                        
-                        return (
-                          
-                          <div className="cardContainer"key={card.id}>
-                              { card.link==user.username ?(
-                                <Button variation="link" padding="3px"
-                                onClick={()=>{setToggleState(true)}}>x</Button>
-                                ):(<></>)}  { toggleState ? (
-                                  <Button size="small" 
-                                          margin="10px" 
-                                          onClick={()=>{
-                                            deleteItem(card, user)
-                                          }}
-                                 >Are you sure you want to delete this card?</Button>):(<></>)}
 
-                          
+            <Tabs spacing="equal">
+              <TabItem title="Home">
+                <View title="lists">
+                    { cards.map((card) => {
+                        return (
+                          <div className="cardContainer"key={card.id}>
                               <CardItem
                               title={card.title}
                               subtitle={card.subtitle}
@@ -98,20 +69,54 @@ console.log("good")
                               link={card.link}
                               rank={card.rank}
                               />
-
                               { card.link==user.username ?(
                                 <Button variation="link" color="white" padding="3px"
                                 onClick={()=>{setToggleState(true)}}>x</Button>
-                              ):(<></>)}
-                           
-                          </div>     
-                          
-                           
-                          )
-                      })
-                      
-                    }
-                      </View>    
+                              ):(<></>)}           
+                          </div>       
+                        )}
+                    )}
+                  </View>    
+              </TabItem>
+              
+              <TabItem title="New">
+                <NewCard  username={user.username} />
+              </TabItem>
+
+              <TabItem title="Profile">
+                <Flex gap="60%" direction="row">
+                  <Heading paddingTop="30px">Your Posts:</Heading>
+                  <Button margin="20px" backgroundColor="black" fontStyle="italic"variation="primary" size="small" onClick={signOut}>Sign Out
+                    </Button> 
+                    </Flex>
+                    { cards.map((card) => {
+                      const dateCreated = new Date(card.createdAt).toLocaleDateString();
+
+                        return (
+                          <Flex direction="column" paddingLeft="10px">
+                            <Flex padding="10px"direction="row" key={card.id} alignContent="center" >
+                              
+                                {card.link==user.username ? (
+                                  <>
+                                  <Text fontSize="0.9em">{dateCreated}</Text>
+                                  <Text fontSize="1.5em">{card.title}</Text>
+                                  
+                                  <Button variation="link" padding="10px" onClick={()=>{setToggleState(!toggleState)}}>
+                                    Delete
+                                  </Button> </>):(<></>)
+                                          }  { toggleState ? (
+                                                <Button size="small" onClick={()=>{deleteItem(card, user)}}>
+                                                    Are you sure you want to delete this card?
+                                                </Button>):(<></>)}
+                              </Flex>
+                            </Flex>
+                        )})}
+               
+              
+                
+              </TabItem>
+            </Tabs>
+            
             </Flex>
         </View>    
     )}
