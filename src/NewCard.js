@@ -93,7 +93,3 @@ export default function NewCard(username) {
     
     )
 }
-
-// async function p() => {
-//   const uploadCard = await API.graphql({ query: mutations.createCard, variables: {input: formState}});
-// }
